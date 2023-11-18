@@ -6,13 +6,13 @@
 #    By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 16:52:27 by frcastil          #+#    #+#              #
-#    Updated: 2023/11/14 11:33:36 by frcastil         ###   ########.fr        #
+#    Updated: 2023/11/18 17:26:21 by frcastil         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-CFLAGS = -Wextra -Wall -Werror
+CFLAGS = -Wextra -Wall -Werror -g3
 LIBFT = ./libft
 
 SRCS = src/main.c\

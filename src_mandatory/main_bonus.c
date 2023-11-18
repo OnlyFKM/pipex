@@ -6,7 +6,7 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 08:56:02 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/18 20:18:04 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/18 18:40:25 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_child_process(char *argv[], char **envp, int *fd)
 {
 	int	fd_in;
 
-	fd_in = open(argv[1], O_RDONLY, 777);
+	fd_in = open(argv[1], O_RDONLY);
 	if (fd_in == -1)
 		ft_error("Error opening input file\n");
 	if (dup2(fd[1], STDOUT_FILENO) == -1 || dup2(fd_in, STDIN_FILENO) == -1)
@@ -62,7 +62,7 @@ void	ft_parent_process(char *argv[], char **envp, int *fd)
 {
 	int		fd_out;
 
-	fd_out = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 777);
+	fd_out = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC);
 	if (dup2(fd[0], STDIN_FILENO) == -1 || dup2(fd_out, STDOUT_FILENO) == -1)
 		ft_error("Error in dup2\n");
 	close(fd[1]);
@@ -70,58 +70,27 @@ void	ft_parent_process(char *argv[], char **envp, int *fd)
 	ft_execution(argv[3], envp);
 }
 
-void	ft_read_fd(int *fd_here, int fd)
-{
-	char	*new;
-
-	new = malloc(10 + 1);
-	read(fd_here[0], new, 10);
-	printf ("POP: %s", new);
-	fd = fd_here[0];
-}
-
-int	ft_get_fd_in(char **argv)
-{
-	int		fd;
-	char	*str;
-	int		fd_here[2];
-
-	fd = 0;
-	str = NULL;
-	pipe(fd_here);
-	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
-	{
-		while (1)
-		{
-			str = malloc(10 + 1);
-			read(0, str, 10);
-			if (ft_strncmp(str, argv[2], ft_strlen(argv[2]) - 1) == 0)
-				break ;
-			write(fd_here[1], str, ft_strlen(str));
-			//write(fd_here[1], "\n", 1);
-			free(str);
-		}
-		close(fd_here[1]);
-		ft_read_fd(&fd_here[0], fd);
-	}
-	else
-		fd = open(argv[1], O_RDONLY, 777);
-	return (fd);
-}
-
 int	main(int argc, char *argv[], char **envp)
 {
 	pid_t	pid;
-	int		fd_infile;
+	int		fd_pipex[2];
 
-	(void) pid;
-	(void) envp;
-	if (argc < 5)
+	if (argc != 5)
 	{
 		ft_printf("Error\nExample: ./pipex <file1> <cmd1> <cmd2> <file2>\n");
 		exit(EXIT_FAILURE);
 	}
-	fd_infile = ft_get_fd_in(argv);
-	(void) fd_infile;
+	if (pipe(fd_pipex) < 0)
+		ft_error("Error in pipe");
+	pid = fork();
+	if (pid == -1)
+		ft_error("Error in fork\n");
+	if (pid == 0)
+		ft_child_process(argv, envp, fd_pipex);
+	else
+	{
+		waitpid(pid, NULL, 0);
+		ft_parent_process(argv, envp, fd_pipex);
+	}
 	return (0);
 }

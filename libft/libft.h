@@ -6,7 +6,7 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 18:33:58 by frcastil          #+#    #+#             */
-/*   Updated: 2023/10/26 12:21:23 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/18 17:50:18 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
+char				*ft_strjoin(char *s1, char *s2);
 
 // libft_bonus
 t_list				*ft_lstnew(int num);
