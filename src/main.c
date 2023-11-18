@@ -6,7 +6,7 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 08:56:02 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/18 20:18:04 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/18 20:30:48 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_get_fd_in(char **argv)
 			if (ft_strncmp(str, argv[2], ft_strlen(argv[2]) - 1) == 0)
 				break ;
 			write(fd_here[1], str, ft_strlen(str));
-			//write(fd_here[1], "\n", 1);
+			write(fd_here[1], "\n", 1);
 			free(str);
 		}
 		close(fd_here[1]);
