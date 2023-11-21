@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 11:32:58 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/18 17:54:22 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/21 12:22:37 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "../inc/pipex_bonus.h"
 
 void	ft_error(char *text)
 {
@@ -40,4 +40,49 @@ char	*ft_find_path(char **envp, char *command)
 		splited++;
 	}
 	return (ft_error("Error\nCommand not found!"), NULL);
+}
+
+void	ft_execution(char *argv, char **envp)
+{
+	char	**cmd;
+	char	*abs_path;
+	char	*new_char;
+
+	cmd = ft_split(argv, ' ');
+	new_char = ft_joinslash(cmd[0]);
+	abs_path = ft_find_path(envp, new_char);
+	free(new_char);
+	execve(abs_path, cmd, envp);
+}
+
+char	*ft_joinslash(char *cmd)
+{
+	int		len;
+	char	*new;
+	int		i;
+
+	len = ft_strlen(cmd);
+	new = malloc(len + 2);
+	new[0] = '/';
+	i = 0;
+	while (i < (len + 2))
+	{
+		new[i + 1] = cmd[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
+void	ft_read_fd(int *fd_here, int fd)
+{
+	char	*new;
+
+	new = get_next_line(fd_here[0]);
+	while (new)
+	{
+		ft_printf ("HERE_DOC: %s", new);
+		new = get_next_line(fd_here[0]);
+	}
+	fd = fd_here[0];
 }
