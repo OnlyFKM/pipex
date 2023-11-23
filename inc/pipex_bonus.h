@@ -6,7 +6,7 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 13:09:07 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/23 13:15:48 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/23 17:44:16 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@
 
 // main.c
 int		main(int argc, char *argv[], char **envp);
-void	ft_child_process(char *argv[], char **envp, int *fd);
-void	ft_parent_process(char *argv[], char **envp, int *fd);
-int		ft_get_fd_in(char **argv);
+int		ft_type_of_infile(char *argv[], int argc);
+int		ft_here_doc(char *argv[], int argc);
+void	ft_child_process(char *argv[], char **envp);
+void	ft_parent_process(int fd_pipex[2]);
 
 // utils.c
 void	ft_error(char *text);
 char	*ft_find_path(char **envp, char *command);
 void	ft_execution(char *argv, char **envp);
 char	*ft_joinslash(char *cmd);
-void	ft_read_fd(int *fd_here);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 11:32:58 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/23 15:44:52 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/23 17:44:23 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_find_path(char **envp, char *command)
 			return (final_path);
 		splited++;
 	}
-	return (ft_printf("Error\nCommand not found!"), NULL);
+	return (ft_printf("Error\nCommand not found!\n"), NULL);
 }
 
 void	ft_execution(char *argv, char **envp)
@@ -73,46 +73,3 @@ char	*ft_joinslash(char *cmd)
 	new[i] = '\0';
 	return (new);
 }
-
-void	ft_read_fd(int *fd_here)
-{
-	char	*new;
-
-	new = get_next_line(fd_here[0]);
-	while (new)
-	{
-		ft_printf ("HERE_DOC: %s", new);
-		new = get_next_line(fd_here[0]);
-	}
-}
-
-/* int	ft_get_fd_in(char **argv)
-{
-	int		fd;
-	char	*str;
-	int		fd_here[2];
-
-	fd = 0;
-	str = NULL;
-	pipe(fd_here);
-	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
-	{
-		while (1)
-		{
-			str = get_next_line(0);
-			if (ft_strncmp(str, argv[2], ft_strlen(argv[2]) + 1) == 10)
-				break ;
-			write(fd_here[1], str, ft_strlen(str));
-			free(str);
-		}
-		close(fd_here[1]);
-		ft_read_fd(&fd_here[0], fd);
-		//argv += 3;
-	}
-	else
-	{
-		fd = open(argv[1], O_RDONLY, 777);
-		argv += 2;
-	}
-	return (fd);
-} */
