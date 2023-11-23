@@ -6,7 +6,7 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 08:56:02 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/23 15:34:03 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:49:51 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,11 @@ int	ft_here_doc(char *argv[], int argc)
 		close(fd_here[1]);
 		return (fd_here[0]);
 	}
-	return (-1);
+	else
+	{
+		ft_printf("Error\nWrong number of argues\n");
+		exit(EXIT_FAILURE);
+	}
 }
 
 /* void	ft_pipex(char *argv[], char **envp, int *fd_pipex, pid_t pid)
@@ -70,8 +74,9 @@ int	ft_type_of_infile(char *argv[], int argc)
 int	main(int argc, char *argv[], char **envp)
 {
 	int	infile;
-	int	outfile;
+	//int	outfile;
 	int	i;
+	(void) envp;
 
 	if (argc >= 5)
 	{
