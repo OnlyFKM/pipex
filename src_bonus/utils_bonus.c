@@ -6,7 +6,7 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 11:32:58 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/21 12:22:37 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/23 13:16:19 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*ft_joinslash(char *cmd)
 	return (new);
 }
 
-void	ft_read_fd(int *fd_here, int fd)
+void	ft_read_fd(int *fd_here)
 {
 	char	*new;
 
@@ -84,5 +84,35 @@ void	ft_read_fd(int *fd_here, int fd)
 		ft_printf ("HERE_DOC: %s", new);
 		new = get_next_line(fd_here[0]);
 	}
-	fd = fd_here[0];
 }
+
+/* int	ft_get_fd_in(char **argv)
+{
+	int		fd;
+	char	*str;
+	int		fd_here[2];
+
+	fd = 0;
+	str = NULL;
+	pipe(fd_here);
+	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
+	{
+		while (1)
+		{
+			str = get_next_line(0);
+			if (ft_strncmp(str, argv[2], ft_strlen(argv[2]) + 1) == 10)
+				break ;
+			write(fd_here[1], str, ft_strlen(str));
+			free(str);
+		}
+		close(fd_here[1]);
+		ft_read_fd(&fd_here[0], fd);
+		//argv += 3;
+	}
+	else
+	{
+		fd = open(argv[1], O_RDONLY, 777);
+		argv += 2;
+	}
+	return (fd);
+} */
