@@ -6,7 +6,7 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 11:32:58 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/27 17:27:27 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/27 17:29:18 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_find_path(char **envp, char *command)
 			return (final_path);
 		splited++;
 	}
-	return (ft_printf("Error\nCommand not found!\n"), NULL);
+	return (ft_printf("Error"), NULL);
 }
 
 void	ft_execution(char *argv, char **envp)
