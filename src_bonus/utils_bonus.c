@@ -6,15 +6,18 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 11:32:58 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/23 17:44:23 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/27 17:27:27 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex_bonus.h"
 
-void	ft_error(char *text)
+void	ft_error(char *text, int flag)
 {
-	perror(text);
+	if (flag == 1)
+		perror(text);
+	else
+		write(1, text, ft_strlen(text));
 	exit(EXIT_FAILURE);
 }
 

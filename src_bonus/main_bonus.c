@@ -6,7 +6,7 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 08:56:02 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/23 18:40:47 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/27 17:24:12 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	ft_child_process(char *argv[], char **envp)
 	int		fd_pipex[2];
 
 	if (pipe(fd_pipex) < 0)
-		ft_error("Error");
+		ft_error("Error", 1);
 	pid = fork();
 	if (pid == -1)
-		ft_error("Error");
+		ft_error("Error", 1);
 	if (pid == 0)
 	{
 		close(fd_pipex[0]);
@@ -41,37 +41,44 @@ void	ft_parent_process(int fd_pipex[2])
 
 int	ft_here_doc(char *argv[], int argc)
 {
-	char	*str;
 	int		fd_here[2];
+	pid_t	id;
 
-	if (argc > 5)
-	{
-		if (pipe(fd_here) < 0)
-			return (-1);
-		while (1)
-		{
-			str = get_next_line(0);
-			if (ft_strncmp(str, argv[2], ft_strlen(argv[2]) + 1) == 10)
-				break ;
-			write(fd_here[1], str, ft_strlen(str));
-			free(str);
-		}
-		free(str);
-		close(fd_here[1]);
-		return (fd_here[0]);
-	}
+	if (argc == 5)
+		ft_error("Error\nWrong number of arguments\n", 2);
+	if (pipe(fd_here) < 0)
+		return (-1);
+	id = fork();
+	if (id < 0)
+		return (-1);
+	if (id == 0)
+		ft_here_process(fd_here, argv);
 	else
 	{
-		ft_printf("Error\nWrong number of argues\n");
-		exit(EXIT_FAILURE);
+		close(fd_here[1]);
+		ft_parent_process(fd_here);
 	}
+	return (fd_here[0]);
 }
 
-int	ft_type_of_infile(char *argv[], int argc)
+void	ft_here_process(int fd_here[2], char *argv[])
 {
-	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
-		return (ft_here_doc(argv, argc));
-	return (open(argv[1], O_RDONLY));
+	char	*str;
+
+	close(fd_here[0]);
+	while (1)
+	{
+		str = get_next_line(0);
+		if (ft_strncmp(str, argv[2], ft_strlen(argv[2]) + 1) == 10)
+		{
+			free(str);
+			break ;
+		}
+		write(fd_here[1], str, ft_strlen(str));
+		free(str);
+	}
+	close(fd_here[1]);
+	exit(0);
 }
 
 int	main(int argc, char *argv[], char **envp)
@@ -82,16 +89,19 @@ int	main(int argc, char *argv[], char **envp)
 
 	if (argc >= 5)
 	{
-		infile = ft_type_of_infile(argv, argc);
-		if (infile == -1)
-			ft_error("Error");
-		//close(infile);
-		outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		dup2(infile, STDIN_FILENO);
-		if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+		if (ft_strncmp(argv[1], "here_doc", 9) == 0)
+		{
+			outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 777);
+			ft_here_doc(argv, argc);
 			i = 3;
+		}
 		else
+		{
+			infile = open(argv[1], O_RDONLY, 777);
+			outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 777);
+			dup2(infile, STDIN_FILENO);
 			i = 2;
+		}
 		while (i < argc - 2)
 			ft_child_process(&argv[i++], envp);
 		dup2(outfile, STDOUT_FILENO);

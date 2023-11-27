@@ -6,7 +6,7 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 08:56:02 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/23 17:00:32 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/24 10:45:23 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_parent_process(char *argv[], char **envp, int *fd)
 {
 	int		fd_out;
 
-	fd_out = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC);
+	fd_out = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 777);
 	if (dup2(fd[0], STDIN_FILENO) == -1 || dup2(fd_out, STDOUT_FILENO) == -1)
 		ft_error("Error in dup2\n");
 	close(fd[1]);
