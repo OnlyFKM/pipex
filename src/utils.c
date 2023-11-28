@@ -6,18 +6,15 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 11:32:58 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/27 17:33:20 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/23 17:00:22 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 
-void	ft_error(char *text, int flag)
+void	ft_error(char *text)
 {
-	if (flag == 1)
-		perror(text);
-	else
-		write(1, text, ft_strlen(text));
+	perror(text);
 	exit(EXIT_FAILURE);
 }
 
@@ -42,7 +39,7 @@ char	*ft_find_path(char **envp, char *command)
 			return (final_path);
 		splited++;
 	}
-	return (ft_error("Error", 1), NULL);
+	return (ft_error("Error\nCommand not found!"), NULL);
 }
 
 void	ft_execution(char *argv, char **envp)

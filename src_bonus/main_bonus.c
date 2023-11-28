@@ -6,7 +6,7 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 08:56:02 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/27 17:24:12 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/28 10:54:42 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,19 +91,19 @@ int	main(int argc, char *argv[], char **envp)
 	{
 		if (ft_strncmp(argv[1], "here_doc", 9) == 0)
 		{
-			outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 777);
+			outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 			ft_here_doc(argv, argc);
 			i = 3;
 		}
 		else
 		{
 			infile = open(argv[1], O_RDONLY, 777);
-			outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 777);
 			dup2(infile, STDIN_FILENO);
 			i = 2;
 		}
 		while (i < argc - 2)
 			ft_child_process(&argv[i++], envp);
+		outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		dup2(outfile, STDOUT_FILENO);
 		ft_execution(argv[argc - 2], envp);
 	}

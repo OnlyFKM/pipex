@@ -6,12 +6,14 @@
 /*   By: frcastil <frcastil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 13:09:07 by frcastil          #+#    #+#             */
-/*   Updated: 2023/11/27 17:24:42 by frcastil         ###   ########.fr       */
+/*   Updated: 2023/11/27 16:58:26 by frcastil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
+
+# include "../libft/libft.h"
 
 // main.c
 int		main(int argc, char *argv[], char **envp);
